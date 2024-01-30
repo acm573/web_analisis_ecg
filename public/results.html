@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Análisis ECG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #header-image {
+            width: 100%;
+            height: auto;
+        }
+        button {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #imagePreview {
+            max-width: 90%;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        #results {
+            white-space: pre-wrap;
+            text-align: left;
+            max-width: 80%;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            background-color: #f9f9f9; /* Color de fondo claro para la tabla */
+            border: 1px solid #ddd; /* Marco fino para la tabla */
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2; /* Color de fondo para los encabezados de la tabla */
+            border-top: 1px solid #ddd;
+        }
+        #tableTitle {
+            width: 80%;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <img src="http://armandoc54.sg-host.com/wp-content/uploads/2024/01/superior-1.jpg" id="header-image" />
+    <img id="imagePreview" />
+    <div id="tableTitle">Resultado de Análisis</div>
+    <div id="results"></div>
+    <button onclick="window.location.href='/principal'">Volver</button>
+
+    <script>
+        window.onload = function() {
+            // Obtener los resultados del almacenamiento de sesión
+            const results = JSON.parse(sessionStorage.getItem('results'));
+
+            //separa solo la info que interesa
+            results2 = {
+                totalLatidos: results.totalLatidos,
+                latidos : results.latidos
+            }
+            
+            // Construir la tabla con los latidos
+            const latidos = results2.latidos;
+            let tableHtml = '<table><tr><th>Numero</th><th>Tipo</th></tr>';
+            latidos.forEach((latido, index) => {
+                tableHtml += `<tr><td>${index + 1}</td><td>${latido.tipo}</td></tr>`;
+            });
+            tableHtml += '</table>';
+
+            // Mostrar la tabla en el elemento con id 'results'
+            document.getElementById('results').innerHTML = tableHtml;
+
+            // Verificar si la propiedad 'imageBase64' existe en los resultados
+            // y actualizar el atributo 'src' del elemento 'img' para mostrar la imagen
+            const preview = document.getElementById('imagePreview');
+            if (results && results.imageBase64) {
+                preview.src = 'data:image/jpeg;base64,' + results.imageBase64;
+                preview.style.display = 'block';
+            } else {
+                console.error('No se encontró la imagen en los resultados.');
+                // Opcional: Manejar la ausencia de imagen, como ocultar el elemento de vista previa
+                preview.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
