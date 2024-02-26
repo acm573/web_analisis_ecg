@@ -23,8 +23,13 @@
             font-size: 16px;
             cursor: pointer;
         }
+        #fc  {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
         #imagePreview {
-            max-width: 90%;
+            max-width: 70%;
             margin-bottom: 20px;
             margin-top: 20px;
         }
@@ -61,7 +66,11 @@
 <body>
     <img src="http://armandoc54.sg-host.com/wp-content/uploads/2024/01/superior-1.jpg" id="header-image" />
     <img id="imagePreview" />
-    <div id="tableTitle">Resultado de Análisis</div>
+    <div id="tableTitle">Resultado de Análisis
+        <p id="fc">Frecuencia cardiaca: 87 bpm</p>
+
+    </div>
+
     <div id="results"></div>
     <button onclick="window.location.href='/principal'">Volver</button>
 
@@ -78,7 +87,7 @@
             
             // Construir la tabla con los latidos
             const latidos = results2.latidos;
-            let tableHtml = '<table><tr><th>Numero</th><th>Tipo</th></tr>';
+            let tableHtml = '<table><tr><th>Latido</th><th>Descripción</th></tr>';
             latidos.forEach((latido, index) => {
                 tableHtml += `<tr><td>${index + 1}</td><td>${latido.tipo}</td></tr>`;
             });
